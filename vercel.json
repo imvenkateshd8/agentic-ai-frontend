@@ -1,5 +1,4 @@
 {
-  "framework": "angular",
   "buildCommand": "npm run build:prod",
   "outputDirectory": "dist/angular-chat-app/browser",
   "rewrites": [
