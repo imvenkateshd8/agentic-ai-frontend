@@ -5,13 +5,21 @@ const path = require('path');
 console.log('=== Vercel Build Script ===');
 console.log('Current directory:', process.cwd());
 console.log('Node version:', process.version);
+console.log('\nListing files in current directory:');
+try {
+  const files = fs.readdirSync(process.cwd());
+  files.forEach(file => console.log('  -', file));
+} catch (err) {
+  console.error('Error listing files:', err);
+}
 
 // Check for angular.json
 const angularJsonPath = path.join(process.cwd(), 'angular.json');
 if (fs.existsSync(angularJsonPath)) {
-  console.log('✓ angular.json found at:', angularJsonPath);
+  console.log('\n✓ angular.json found at:', angularJsonPath);
 } else {
-  console.error('✗ angular.json NOT found');
+  console.error('\n✗ angular.json NOT found at:', angularJsonPath);
+  console.error('Files in directory:', fs.readdirSync(process.cwd()));
   process.exit(1);
 }
 
