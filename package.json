@@ -8,6 +8,7 @@
     "start:safe": "set VITE_OPTIMIZ E_DEPS=false&& ng serve --poll=2000",
     "build": "ng build",
     "build:prod": "ng build --configuration production",
+    "build:vercel": "node vercel-build.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",

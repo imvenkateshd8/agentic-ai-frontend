@@ -1,5 +1,5 @@
 {
-  "buildCommand": "node_modules/.bin/ng build --configuration production",
+  "buildCommand": "npm run build:vercel",
   "outputDirectory": "dist/angular-chat-app/browser",
   "rewrites": [
     {
