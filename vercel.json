@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build:prod",
+  "buildCommand": "node_modules/.bin/ng build --configuration production",
   "outputDirectory": "dist/angular-chat-app/browser",
   "rewrites": [
     {
