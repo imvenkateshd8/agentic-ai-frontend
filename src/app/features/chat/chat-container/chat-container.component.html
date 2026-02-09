@@ -1,0 +1,108 @@
+<div class="chat-layout">
+  <mat-sidenav-container class="sidenav-container">
+    <!-- Sidebar -->
+    <mat-sidenav
+      mode="side"
+      opened
+      class="sidenav"
+      [fixedInViewport]="false"
+    >
+      <app-sidebar></app-sidebar>
+    </mat-sidenav>
+
+    <!-- Main Content -->
+    <mat-sidenav-content class="main-content">
+      <!-- Header -->
+      <mat-toolbar color="primary" class="chat-header">
+        <div class="header-left">
+          <mat-icon>chat</mat-icon>
+          <span class="app-title">AI Assistant</span>
+        </div>
+
+        <div class="header-right">
+          <button
+            mat-icon-button
+            (click)="onNewChat()"
+            matTooltip="New Chat"
+            class="action-button"
+          >
+            <mat-icon>add_comment</mat-icon>
+          </button>
+
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="userMenu"
+            class="user-button"
+            *ngIf="user$ | async as user"
+          >
+            <mat-icon>account_circle</mat-icon>
+          </button>
+
+          <mat-menu #userMenu="matMenu">
+            <div class="user-info" mat-menu-item disabled>
+              <div class="user-name">{{ (user$ | async)?.username }}</div>
+              <div class="user-email">{{ (user$ | async)?.email }}</div>
+            </div>
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="onLogout()">
+              <mat-icon>logout</mat-icon>
+              <span>Logout</span>
+            </button>
+          </mat-menu>
+        </div>
+      </mat-toolbar>
+
+      <!-- Chat Messages Area -->
+      <div class="messages-container" #messagesContainer>
+        <div class="messages-wrapper">
+          <!-- Thread Title -->
+          <div class="thread-title" *ngIf="currentThread$ | async as thread">
+            <h2>{{ thread.title }}</h2>
+          </div>
+
+          <!-- Messages -->
+          <div class="messages-list">
+            <app-chat-message
+              *ngFor="let message of messages$ | async; trackBy: trackByMessageId"
+              [message]="message"
+            ></app-chat-message>
+
+            <!-- Tool Status Indicator -->
+            <app-tool-status
+              *ngIf="toolStatus$ | async as toolStatus"
+              [toolStatus]="toolStatus"
+            ></app-tool-status>
+
+            <!-- Streaming Indicator -->
+            <div class="streaming-indicator" *ngIf="isStreaming$ | async">
+              <mat-spinner diameter="24"></mat-spinner>
+              <span>Thinking...</span>
+            </div>
+
+            <!-- Loading Indicator for Response -->
+            <div class="loading-indicator" *ngIf="isWaitingForResponse$ | async">
+              <mat-spinner diameter="24"></mat-spinner>
+              <span>Getting response...</span>
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <div class="empty-state" *ngIf="!(messages$ | async)?.length">
+            <mat-icon class="empty-icon">chat_bubble_outline</mat-icon>
+            <h3>Start a Conversation</h3>
+            <p>Ask me anything or upload a document to get started</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Input -->
+      <div class="input-container">
+        <app-chat-input
+          (sendMessage)="onSendMessage($event)"
+          (uploadFile)="onFileUpload()"
+          [disabled]="(isStreaming$ | async) ?? false"
+        ></app-chat-input>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

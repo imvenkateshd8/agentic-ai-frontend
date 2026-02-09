@@ -1,0 +1,172 @@
+.thread-list {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.thread-list-header {
+  padding: 0.75rem 1rem;
+  background-color: #edf2f7;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.header-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a5568;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.threads {
+  padding: 0;
+}
+
+.thread-item {
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #ffffff;
+
+  &:hover {
+    background-color: #edf2f7;
+    transform: translateX(4px);
+  }
+
+  &.active {
+    background-color: #667eea;
+    color: white;
+
+    .thread-icon {
+      background-color: rgba(255, 255, 255, 0.2);
+      
+      mat-icon {
+        color: white;
+      }
+    }
+
+    .thread-title {
+      color: white;
+      font-weight: 600;
+    }
+
+    .thread-meta {
+      color: rgba(255, 255, 255, 0.9);
+    }
+  }
+
+  ::ng-deep .mdc-list-item__content {
+    padding: 0;
+  }
+}
+
+.thread-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  width: 100%;
+}
+
+.thread-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ebf8ff;
+  border-radius: 6px;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: #4299e1;
+  }
+}
+
+.thread-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.thread-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a202c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.thread-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 12px;
+  color: #718096;
+}
+
+.thread-date {
+  flex-shrink: 0;
+}
+
+.thread-count {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #a0aec0;
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    font-size: 14px;
+    margin: 0;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .thread-content {
+    padding: 0.625rem;
+  }
+
+  .thread-icon {
+    width: 28px;
+    height: 28px;
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .thread-title {
+    font-size: 13px;
+  }
+
+  .thread-meta {
+    font-size: 11px;
+  }
+}

@@ -1,0 +1,37 @@
+<div
+  class="message"
+  [class.user-message]="isUser"
+  [class.assistant-message]="isAssistant"
+>
+  <div class="message-avatar">
+    <mat-icon *ngIf="isUser">person</mat-icon>
+    <mat-icon *ngIf="isAssistant">smart_toy</mat-icon>
+  </div>
+
+  <div class="message-content-wrapper">
+    <mat-card class="message-card">
+      <div class="message-header">
+        <span class="message-role">{{ isUser ? 'You' : 'Assistant' }}</span>
+        <span class="message-time">{{ timestamp }}</span>
+      </div>
+
+      <div class="message-text" [innerHTML]="renderedContent"></div>
+
+      <!-- Attached Document Display -->
+      <div class="attached-document" *ngIf="message.attachedDocument">
+        <mat-chip class="document-chip">
+          <mat-icon>attach_file</mat-icon>
+          <span>{{ message.attachedDocument }}</span>
+        </mat-chip>
+      </div>
+
+      <!-- Metadata Display -->
+      <div class="message-metadata" *ngIf="message.metadata">
+        <div class="metadata-item" *ngIf="message.metadata.toolName">
+          <mat-icon>build</mat-icon>
+          <span>Used tool: {{ message.metadata.toolName }}</span>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

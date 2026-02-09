@@ -1,0 +1,35 @@
+<div class="thread-list">
+  <div class="thread-list-header">
+    <span class="header-title">Past Conversations</span>
+  </div>
+
+  <mat-nav-list *ngIf="threads && threads.length > 0" class="threads">
+    <mat-list-item
+      *ngFor="let thread of threads; trackBy: trackByThreadId"
+      [class.active]="isActive(thread.id)"
+      (click)="onSelectThread(thread.id)"
+      class="thread-item"
+    >
+      <div class="thread-content">
+        <div class="thread-icon">
+          <mat-icon>chat_bubble</mat-icon>
+        </div>
+
+        <div class="thread-info">
+          <div class="thread-title">{{ thread.title }}</div>
+          <div class="thread-meta">
+            <span class="thread-date">{{ formatDate(thread.updatedAt) }}</span>
+            <span class="thread-count" *ngIf="thread.messageCount > 0">
+              {{ thread.messageCount }} messages
+            </span>
+          </div>
+        </div>
+      </div>
+    </mat-list-item>
+  </mat-nav-list>
+
+  <div class="empty-state" *ngIf="!threads || threads.length === 0">
+    <mat-icon>inbox</mat-icon>
+    <p>No conversations yet</p>
+  </div>
+</div>

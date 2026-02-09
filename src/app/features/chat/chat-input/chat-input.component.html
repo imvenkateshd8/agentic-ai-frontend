@@ -1,0 +1,52 @@
+<div class="chat-input-container">
+  <!-- Attached Document Chip -->
+  <div class="attached-document" *ngIf="attachedDocument">
+    <mat-chip-set>
+      <mat-chip>
+        <mat-icon matChipAvatar>description</mat-icon>
+        {{ attachedDocument }}
+        <button matChipRemove (click)="removeAttachment()">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+
+  <div class="input-row">
+    <button
+      mat-icon-button
+      (click)="onUploadClick()"
+      [disabled]="disabled"
+      matTooltip="Upload PDF"
+      class="upload-button"
+    >
+      <mat-icon>attach_file</mat-icon>
+    </button>
+
+    <mat-form-field appearance="outline" class="input-field">
+      <textarea
+        matInput
+        [(ngModel)]="messageText"
+        (keydown)="onKeyDown($event)"
+        [disabled]="disabled"
+        placeholder="Type your message... (Shift+Enter for new line)"
+        rows="1"
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="6"
+        class="message-textarea"
+      ></textarea>
+    </mat-form-field>
+
+    <button
+      mat-fab
+      color="primary"
+      (click)="onSubmit()"
+      [disabled]="!messageText.trim() || disabled"
+      matTooltip="Send message"
+      class="send-button"
+    >
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</div>

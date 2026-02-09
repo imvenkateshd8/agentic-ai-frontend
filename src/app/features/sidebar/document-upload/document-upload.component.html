@@ -1,0 +1,55 @@
+<div class="document-upload">
+  <div class="upload-header">
+    <mat-icon class="header-icon">description</mat-icon>
+    <span class="header-text">Document</span>
+  </div>
+
+  <!-- Upload Button -->
+  <button
+    mat-stroked-button
+    class="upload-button"
+    [disabled]="isUploading$ | async"
+    (click)="fileInput.click()"
+  >
+    <mat-icon>upload_file</mat-icon>
+    <span>Upload PDF</span>
+  </button>
+
+  <input
+    #fileInput
+    type="file"
+    accept=".pdf"
+    (change)="onFileSelected($event)"
+    style="display: none"
+  />
+
+  <!-- Upload Progress -->
+  <div class="upload-progress" *ngIf="isUploading$ | async">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <span class="progress-text">Indexing document...</span>
+  </div>
+
+  <!-- Latest Document Info -->
+  <div class="document-info" *ngIf="(latestDocument$ | async) as doc">
+    <div class="info-header">
+      <mat-icon class="info-icon">check_circle</mat-icon>
+      <span class="info-label">Indexed</span>
+    </div>
+    <div class="info-content">
+      <div class="doc-filename" [matTooltip]="doc.filename">
+        {{ doc.filename }}
+      </div>
+      <div class="doc-meta">
+        <span>{{ doc.chunks }} chunks</span>
+        <span class="separator">•</span>
+        <span>{{ doc.documents }} pages</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Document State -->
+  <div class="no-document" *ngIf="!(latestDocument$ | async) && !(isUploading$ | async)">
+    <mat-icon>info</mat-icon>
+    <span>No PDF indexed yet</span>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="sidebar-container">
+  <!-- Header -->
+  <div class="sidebar-header">
+    <h2 class="sidebar-title">
+      <mat-icon>forum</mat-icon>
+      <span>Conversations</span>
+    </h2>
+
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="onNewChat()"
+      class="new-chat-button"
+    >
+      <mat-icon>add</mat-icon>
+      <span>New Chat</span>
+    </button>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Thread List -->
+  <div class="thread-list-section">
+    <app-thread-list
+      [threads]="threads$ | async"
+      [currentThreadId]="currentThreadId$ | async"
+    ></app-thread-list>
+  </div>
+</div>
