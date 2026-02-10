@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 
@@ -26,12 +26,15 @@ import * as ChatActions from '../../../store/chat/chat.actions';
 export class ThreadListComponent {
   @Input() threads: Thread[] | null = [];
   @Input() currentThreadId: string | null = null;
+  @Output() threadSelected = new EventEmitter<string>();
 
   constructor(private store: Store) {}
 
   onSelectThread(threadId: string): void {
     // Only change current thread, messages already in state from localStorage
     this.store.dispatch(ChatActions.setCurrentThread({ threadId }));
+    // Emit event for parent components
+    this.threadSelected.emit(threadId);
   }
 
   isActive(threadId: string): boolean {

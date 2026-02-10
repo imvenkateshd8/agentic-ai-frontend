@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, take } from 'rxjs/operators';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -61,6 +62,7 @@ import { DocumentUploadModalComponent } from '../document-upload-modal/document-
 export class ChatContainerComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
   @ViewChild(ChatInputComponent) chatInputRef!: ChatInputComponent;
+  @ViewChild('sidenav') sidenav!: MatSidenav;
   
   messages$: Observable<Message[]>;
   currentThread$: Observable<Thread | null>;
@@ -71,8 +73,12 @@ export class ChatContainerComponent implements OnInit, OnDestroy, AfterViewCheck
   currentThreadId$: Observable<string | null>;
   threads$: Observable<Thread[]>;
   
+  isMobileView = false;
+  sidenavOpened = false;
+  
   private destroy$ = new Subject<void>();
   private shouldScrollToBottom = false;
+  private readonly MOBILE_BREAKPOINT = 768;
 
   constructor(
     private store: Store,
@@ -89,6 +95,9 @@ export class ChatContainerComponent implements OnInit, OnDestroy, AfterViewCheck
   }
 
   ngOnInit(): void {
+    // Check initial screen size
+    this.checkScreenSize();
+    
     // Load all threads and messages from localStorage
     this.store.dispatch(ChatActions.loadThreads());
     
@@ -192,8 +201,11 @@ export class ChatContainerComponent implements OnInit, OnDestroy, AfterViewCheck
 
   private openUploadModal(threadId: string): void {
     const dialogRef = this.dialog.open(DocumentUploadModalComponent, {
-      width: '500px',
+      width: '420px',
+      maxWidth: '95vw',
+      maxHeight: '80vh',
       disableClose: false,
+      panelClass: 'document-upload-modal',
       data: { threadId }
     });
 
@@ -222,6 +234,20 @@ export class ChatContainerComponent implements OnInit, OnDestroy, AfterViewCheck
       }
     });
   }
+  
+  onSidebarNewChat(): void {
+    // Close sidenav on mobile when new chat is clicked from sidebar
+    if (this.isMobileView && this.sidenav) {
+      this.sidenav.close();
+    }
+  }
+  
+  onThreadSelected(threadId: string): void {
+    // Close sidenav on mobile when thread is selected
+    if (this.isMobileView && this.sidenav) {
+      this.sidenav.close();
+    }
+  }
 
   onLogout(): void {
     this.store.dispatch(AuthActions.logout());
@@ -239,10 +265,70 @@ export class ChatContainerComponent implements OnInit, OnDestroy, AfterViewCheck
     try {
       if (this.messagesContainer) {
         const element = this.messagesContainer.nativeElement;
-        element.scrollTop = element.scrollHeight;
+        // Use smooth scroll behavior for better UX
+        element.scrollTo({
+          top: element.scrollHeight,
+          behavior: 'smooth'
+        });
       }
     } catch (err) {
-      console.error('Scroll to bottom failed:', err);
+      // Fallback to instant scroll if smooth scroll fails
+      try {
+        if (this.messagesContainer) {
+          const element = this.messagesContainer.nativeElement;
+          element.scrollTop = element.scrollHeight;
+        }
+      } catch (fallbackErr) {
+        console.error('Scroll to bottom failed:', fallbackErr);
+      }
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.checkScreenSize();
+  }
+
+  private checkScreenSize(): void {
+    const wasMobile = this.isMobileView;
+    this.isMobileView = window.innerWidth < this.MOBILE_BREAKPOINT;
+    
+    // If we switched from mobile to desktop, ensure sidenav is open
+    if (wasMobile && !this.isMobileView && this.sidenav) {
+      this.sidenav.open();
+      this.sidenavOpened = true;
+    }
+    
+    // If we switched from desktop to mobile, close sidenav
+    if (!wasMobile && this.isMobileView && this.sidenav) {
+      this.sidenav.close();
+      this.sidenavOpened = false;
+    }
+    
+    // Update body scroll lock
+    this.updateBodyScrollLock();
+  }
+
+  toggleSidenav(): void {
+    if (this.sidenav) {
+      this.sidenav.toggle();
+      this.sidenavOpened = !this.sidenavOpened;
+      this.updateBodyScrollLock();
+    }
+  }
+
+  onSidenavClosed(): void {
+    this.sidenavOpened = false;
+    this.updateBodyScrollLock();
+  }
+
+  private updateBodyScrollLock(): void {
+    if (this.isMobileView && this.sidenavOpened) {
+      // Prevent body scroll when mobile menu is open
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Restore body scroll
+      document.body.style.overflow = '';
     }
   }
 }

@@ -22,6 +22,15 @@ A modern, production-ready Angular chat application inspired by Streamlit's RAG 
 - **Type-Safe** - Full TypeScript implementation
 - **Modular Structure** - Feature-based organization
 
+### UI/UX Features
+- **Mobile-First Design** - Responsive layouts that adapt seamlessly across all screen sizes
+- **Full-Screen Modals** - Upload modal becomes full-screen on mobile devices
+- **Keyboard-Aware Input** - Conversation input remains accessible above mobile keyboards
+- **Clear Attachment Preview** - Document attachments displayed with prominent visual indicators
+- **Auto-Scroll Messages** - New messages automatically scroll into view without disrupting UX
+- **Markdown Rendering** - Full markdown support with syntax highlighting
+- **Material Icons** - Consistent iconography across all components
+
 ## 📋 Architecture Overview
 
 ### Based on Streamlit Implementation Analysis
@@ -197,6 +206,40 @@ export const environment = {
 - Real-time status updates
 - Completion confirmation
 - Error handling with user feedback
+
+### 5. Responsive Design & Mobile Experience
+
+#### Mobile-First Approach
+The application is built with a mobile-first strategy, ensuring optimal experience across all devices:
+
+**Upload Modal**
+- Full-screen presentation on mobile devices
+- Optimized touch targets for file selection
+- Clear visual feedback during upload process
+- Adaptive layout for tablet and desktop
+
+**Conversation Input**
+- Remains accessible above mobile keyboards
+- Attachment icon and send button properly aligned
+- Document chips display inline with clear remove actions
+- Auto-focus and smooth keyboard transitions
+
+**Message Display**
+- Auto-scroll to latest messages without disrupting reading
+- Responsive markdown rendering with proper spacing
+- Touch-friendly message interactions
+- Optimized for portrait and landscape orientations
+
+**Attachment Preview**
+- Clear visual indicators for attached documents
+- Prominent chip display in input area
+- Easy removal with accessible touch targets
+- Metadata visible without cluttering the interface
+
+**Responsive Breakpoints**
+- Mobile: < 768px (optimized for phones)
+- Tablet: 768px - 1024px (adaptive layouts)
+- Desktop: > 1024px (full feature display)
 
 ### 5. Streaming Responses
 

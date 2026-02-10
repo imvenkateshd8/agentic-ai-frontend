@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -37,6 +37,9 @@ import { ThreadListComponent } from './thread-list/thread-list.component';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
+  @Output() newChatClicked = new EventEmitter<void>();
+  @Output() threadSelected = new EventEmitter<string>();
+  
   threads$: Observable<Thread[]>;
   currentThreadId$: Observable<string | null>;
 
@@ -65,6 +68,14 @@ export class SidebarComponent implements OnInit {
         // Create new conversation
         this.store.dispatch(ChatActions.createNewThread());
       }
+      
+      // Emit event to close sidebar in mobile view
+      this.newChatClicked.emit();
     });
+  }
+  
+  onThreadSelected(threadId: string): void {
+    // Forward the thread selection event
+    this.threadSelected.emit(threadId);
   }
 }

@@ -24,6 +24,7 @@
     <app-thread-list
       [threads]="threads$ | async"
       [currentThreadId]="currentThreadId$ | async"
+      (threadSelected)="onThreadSelected($event)"
     ></app-thread-list>
   </div>
 </div>

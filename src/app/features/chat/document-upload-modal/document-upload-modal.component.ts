@@ -100,7 +100,7 @@ export interface DocumentUploadData {
   `,
   styles: [`
     .upload-zone {
-      min-height: 250px;
+      min-height: 180px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -108,7 +108,7 @@ export interface DocumentUploadData {
     
     .upload-prompt {
       text-align: center;
-      padding: 3rem;
+      padding: 2rem 1.5rem;
       border: 2px dashed #cbd5e0;
       border-radius: 12px;
       cursor: pointer;
@@ -122,40 +122,40 @@ export interface DocumentUploadData {
     }
     
     .upload-icon {
-      font-size: 64px;
-      width: 64px;
-      height: 64px;
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
       color: #667eea;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
     }
     
     .prompt-text {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 500;
       color: #2d3748;
-      margin: 0 0 0.5rem;
+      margin: 0 0 0.25rem;
     }
     
     .prompt-hint {
-      font-size: 14px;
+      font-size: 13px;
       color: #718096;
       margin: 0;
     }
     
     .upload-progress {
-      padding: 1.5rem;
+      padding: 1rem;
     }
     
     .file-info {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
       
       mat-icon {
-        font-size: 48px;
-        width: 48px;
-        height: 48px;
+        font-size: 40px;
+        width: 40px;
+        height: 40px;
         color: #667eea;
       }
     }
@@ -189,33 +189,33 @@ export interface DocumentUploadData {
     
     .upload-success {
       text-align: center;
-      padding: 2rem;
+      padding: 1.5rem 1rem;
       
       .success-icon {
-        font-size: 72px;
-        width: 72px;
-        height: 72px;
+        font-size: 56px;
+        width: 56px;
+        height: 56px;
         color: #48bb78;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
       }
       
       .success-text {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 500;
         color: #2d3748;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
       }
     }
     
     .document-stats {
       background-color: #f7fafc;
-      padding: 1rem;
+      padding: 0.75rem;
       border-radius: 8px;
       text-align: left;
       
       p {
-        margin: 0.5rem 0;
-        font-size: 14px;
+        margin: 0.35rem 0;
+        font-size: 13px;
         color: #4a5568;
       }
     }
@@ -224,9 +224,68 @@ export interface DocumentUploadData {
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      font-size: 18px;
+      margin: 0;
+      padding: 0.75rem 1rem;
       
       mat-icon {
         color: #667eea;
+        font-size: 22px;
+      }
+    }
+    
+    mat-dialog-content {
+      padding: 1rem !important;
+      margin: 0 !important;
+    }
+    
+    mat-dialog-actions {
+      padding: 0.75rem 1rem !important;
+      min-height: auto !important;
+    }
+    
+    /* Mobile-First Responsive Design */
+    @media (max-width: 768px) {
+      :host ::ng-deep .mat-mdc-dialog-container {
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0 !important;
+      }
+      
+      .upload-zone {
+        min-height: 50vh;
+      }
+      
+      .upload-prompt {
+        padding: 2rem 1rem;
+        
+        .upload-icon {
+          font-size: 48px;
+          width: 48px;
+          height: 48px;
+        }
+        
+        .prompt-text {
+          font-size: 16px;
+        }
+      }
+      
+      .upload-progress {
+        padding: 1.5rem 1rem;
+      }
+      
+      .file-info mat-icon {
+        font-size: 36px;
+        width: 36px;
+        height: 36px;
+      }
+    }
+    
+    @media (max-width: 600px) {
+      h2 {
+        font-size: 18px;
       }
     }
   `]

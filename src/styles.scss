@@ -142,3 +142,187 @@ body *:not(.material-icons):not(.mat-icon):not([class*="mat-icon"]) {
 .slide-up {
   animation: slideUp 0.4s ease-out;
 }
+
+/* Mobile-First Responsive Design */
+
+/* Mobile Viewport Settings */
+html {
+  /* Prevent font scaling on mobile */
+  -webkit-text-size-adjust: 100%;
+  /* Enable smooth scrolling */
+  scroll-behavior: smooth;
+  /* Handle safe areas on notched devices */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+body {
+  /* Prevent pull-to-refresh on mobile */
+  overscroll-behavior-y: contain;
+  /* Ensure full height on mobile browsers */
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+/* Document Upload Modal - Mobile Full Screen */
+.document-upload-modal {
+  .mat-mdc-dialog-container {
+    padding: 0 !important;
+  }
+  
+  .mat-mdc-dialog-surface {
+    border-radius: 12px !important;
+  }
+  
+  @media (max-width: 768px) {
+    .mat-mdc-dialog-container {
+      max-width: 100vw !important;
+      max-height: 100vh !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      border-radius: 0 !important;
+    }
+    
+    .mat-mdc-dialog-surface {
+      border-radius: 0 !important;
+    }
+  }
+}
+
+/* Touch Optimization */
+@media (hover: none) and (pointer: coarse) {
+  /* Increase touch target sizes on touch devices */
+  button,
+  a,
+  .mat-mdc-icon-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Remove hover effects on touch devices */
+  *:hover {
+    transition: none !important;
+  }
+}
+
+/* Keyboard Handling */
+@media (max-width: 768px) {
+  /* Prevent zoom on input focus */
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* Orientation Handling */
+@media (orientation: landscape) and (max-height: 500px) {
+  /* Optimize for landscape mode on mobile */
+  body {
+    overflow-y: auto;
+  }
+}
+
+/* Safe Area Insets for Notched Devices */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .input-container {
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom)) !important;
+  }
+}
+
+/* Accessibility Enhancements */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .mat-mdc-raised-button {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Material Sidenav Backdrop Styling */
+.mat-drawer-backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mat-drawer-backdrop.mat-drawer-shown {
+  opacity: 1;
+}
+
+/* Touch-Friendly Interactions */
+@media (hover: none) and (pointer: coarse) {
+  /* Increase tap target sizes on touch devices */
+  button,
+  a,
+  .mat-mdc-icon-button,
+  .mat-mdc-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  /* Improve touch feedback */
+  button:active,
+  .mat-mdc-button:active,
+  .mat-mdc-icon-button:active {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+}
+
+/* Keyboard Focus Indicators */
+:focus-visible {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+.mat-mdc-button:focus-visible,
+.mat-mdc-icon-button:focus-visible {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+/* Skip Navigation Link for Screen Readers */
+.skip-navigation {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #667eea;
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  z-index: 10000;
+  
+  &:focus {
+    top: 0;
+  }
+}
+
+/* Prevent Body Scroll When Mobile Menu Open */
+body.menu-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+/* Smooth Drawer Animation */
+.mat-drawer {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+/* Loading States */
+.mat-drawer-transition .mat-drawer-content {
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}

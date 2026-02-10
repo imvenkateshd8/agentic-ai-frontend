@@ -1,13 +1,20 @@
 <div class="chat-layout">
-  <mat-sidenav-container class="sidenav-container">
+  <mat-sidenav-container class="sidenav-container" [hasBackdrop]="isMobileView">
     <!-- Sidebar -->
     <mat-sidenav
-      mode="side"
-      opened
+      #sidenav
+      [mode]="isMobileView ? 'over' : 'side'"
+      [opened]="!isMobileView"
       class="sidenav"
-      [fixedInViewport]="false"
+      [fixedInViewport]="true"
+      (closed)="onSidenavClosed()"
+      role="navigation"
+      [attr.aria-label]="'Navigation panel'"
     >
-      <app-sidebar></app-sidebar>
+      <app-sidebar 
+        (newChatClicked)="onSidebarNewChat()" 
+        (threadSelected)="onThreadSelected($event)"
+      ></app-sidebar>
     </mat-sidenav>
 
     <!-- Main Content -->
@@ -15,6 +22,16 @@
       <!-- Header -->
       <mat-toolbar color="primary" class="chat-header">
         <div class="header-left">
+          <!-- Hamburger Menu Button (Mobile Only) -->
+          <button
+            mat-icon-button
+            class="menu-toggle"
+            (click)="toggleSidenav()"
+            [attr.aria-label]="sidenavOpened ? 'Close navigation' : 'Open navigation'"
+            [attr.aria-expanded]="sidenavOpened"
+          >
+            <mat-icon>{{ sidenavOpened && isMobileView ? 'close' : 'menu' }}</mat-icon>
+          </button>
           <mat-icon>chat</mat-icon>
           <span class="app-title">AI Assistant</span>
         </div>
